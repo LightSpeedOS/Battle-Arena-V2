@@ -84,7 +84,7 @@ const char* brightYellow = "\033[93m";
 const char* brightBlue = "\033[94m";
 const char* brightMagenta = "\033[95m";
 const char* brightCyan = "\033[96m";
-const char* bloodRed = "\033[38;2;136;8;8m";
+const char* bloodRed = "\033[38;2;136;8;8m"; 
 const char* playerColour = "\033[38;2;133;133;173m";
 const char* brightWhite = "\033[97m";
 
