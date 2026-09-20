@@ -52,6 +52,13 @@ bool input()
 	return false;
 }
 
+void invalid()
+{
+	clear();
+	cout << "[!] Invalid Option" << endl;
+	pause();
+}
+
 void initConsole()
 {
 	srand(time(0));

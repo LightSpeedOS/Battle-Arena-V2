@@ -8,8 +8,10 @@ auto main() -> int
 	initConsole();
 
 	Player player = {};
-	Boss boss = {};
-	vector<Boss>Bosses;
+	Boss tBoss = {};
+	Boss gBoss = {};
+	Boss nBoss = {};
+	vector<Boss>Entites;
 
 	player.name = string(playerColour) +"Zork" + reset;
 	player.health = 100;
@@ -19,10 +21,23 @@ auto main() -> int
 	player.gold = 100;
 	player.level = 1;
 
-	boss.name = string(bloodRed) + "Trespasser" + reset;
-	boss.health = 135;
-	boss.damage = bossDamage();
-	Bosses.push_back(boss);
+	tBoss.name = string(bloodRed) + "Trespasser" + reset;
+	tBoss.health = 135;
+	tBoss.damage = bossDamage(Trespasser);
+	tBoss.isDefeated = false;
+	Entites.push_back(tBoss);
+
+	gBoss.name = string(bloodRed) + "Gravebound" + reset;
+	gBoss.health = 220;
+	gBoss.damage = bossDamage(Gravebound);
+	gBoss.isDefeated = false;
+	Entites.push_back(gBoss);
+
+	nBoss.name = string(bloodRed) + "NightBound" + reset;
+	nBoss.health = 380;
+	nBoss.damage = bossDamage(Nightbound);
+	nBoss.isDefeated = false;
+	Entites.push_back(nBoss);
 
 	int mainOptions;
 
