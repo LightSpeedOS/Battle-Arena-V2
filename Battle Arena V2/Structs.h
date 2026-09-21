@@ -18,6 +18,12 @@ enum fightMenu
 	Run
 };
 
+enum shopMenu
+{
+	Swords = 1,
+	Spells
+};
+
 enum Bosses
 {
 	Trespasser, // 0
@@ -29,6 +35,7 @@ struct Weapon
 {
 	string name;
 	int damage;
+	int gold;
 	bool isOwned = false;
 };
 
@@ -48,7 +55,7 @@ struct Player
 	int maxHealth;
 	int gold;
 	int level;
-	int equppedWeapon;
+	int equippedWeapon;
 
 	Weapon weapon;
 	Potion potion;
@@ -58,6 +65,7 @@ struct Boss
 {
 	string name;
 	int health;
+	int maxHealth;
 	int damage;
 	bool isDefeated = false;
 };

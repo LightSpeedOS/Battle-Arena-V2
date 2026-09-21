@@ -94,7 +94,7 @@ void playerAttack(Boss& target, const Player& attacker, const vector<Weapon>& we
 	const int healthSnapshot = target.health;
 	target.health -= weapons[attacker.equippedWeapon].damage;
 
-	cout << attacker.name << " Striking -> " << target.name << endl;
+	cout << attacker.name << " Striking ->" << target.name << endl;
 	battlePause();
 
 	cout << target.name << " Health: " << healthSnapshot << " -> "
@@ -108,12 +108,12 @@ void bossAttack(Player& target, const Boss& attacker)
 	const int healthSnapshot = target.health;
 	target.health -= attacker.damage;
 
-	cout << attacker.name << " Striking -> " << target.name << endl;
+	cout << attacker.name << " Striking ->" << target.name << endl;
 	battlePause();
 
 	cout << target.name << " Health: " << healthSnapshot << " -> "
 		<< target.health << "(" << red << "-" << attacker.damage << reset << ")" << endl;
-	getKey();
+	battlePause();
 	space();
 }
 

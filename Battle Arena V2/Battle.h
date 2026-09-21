@@ -2,11 +2,13 @@
 
 #include "Structs.h"
 
-void battleSequence(vector<Boss>& bosses, Player& player)
+void battleSequence(vector<Boss>& bosses, Player& player, const vector<Weapon>& weapons)
 {
 	bool inBattle = true;
 	int bossPick = bossSelection(bosses);
 	Boss& boss = bosses[bossPick];
+	boss.health = boss.maxHealth;
+	player.health = player.maxHealth;
 
 	clear();
 	SetConsoleTitleA("Battle Arena (Battle)");
@@ -16,7 +18,7 @@ void battleSequence(vector<Boss>& bosses, Player& player)
 
 		int fightMenu;
 
-		cout << "[1] Fight" << endl;
+		cout << "[1] Battle" << endl;
 		cout << "[2] Spells" << endl;
 		cout << "[3] Run" << endl;
 		cout << "> ";
@@ -34,6 +36,8 @@ void battleSequence(vector<Boss>& bosses, Player& player)
 
 			while (inBattle)
 			{
+				clear();
+
 				cout << "[F] Fight  [H] Heal (" << player.flask << ") " << "[R] Run" << endl;
 				cout << "> ";
 
@@ -82,10 +86,9 @@ void battleSequence(vector<Boss>& bosses, Player& player)
 				case 'r':
 					runPenalty(player);
 					return;
-
 				}
 
-				playerAttack(boss, player);
+				playerAttack(boss, player, weapons);
 				if (isDead(boss))
 				{
 					inBattle = false;
