@@ -50,6 +50,7 @@ auto main() -> int
 	Weapon Undersea;
 	Undersea.name = "Undersea Cable";
 	Undersea.damage = 19;
+	Undersea.gold = 0;
 	Undersea.isOwned = true;
 	weapons.push_back(Undersea);
 
@@ -72,7 +73,7 @@ auto main() -> int
 
 	while (true)
 	{
-
+		clear();
 		SetConsoleTitleA("Battle Arena (Main Menu)");
 
 		cout << "--MENU---------------------------" << endl;
@@ -100,6 +101,26 @@ auto main() -> int
 
 		case Battle:
 			battleSequence(Entites, player, weapons);
+			break;
+
+		case Shop:
+			listWeapons(weapons, player);
+			break;
+
+		case Equip:
+
+			break;
+
+		case Stats:
+			listStats(player, weapons);
+			break;
+
+		case Exit:
+			shutDown();
+			break;
+
+		default:
+			invalid();
 			break;
 
 		}

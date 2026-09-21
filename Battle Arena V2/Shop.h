@@ -10,9 +10,10 @@ void listWeapons(vector<Weapon>& weapons, Player& player)
 
 	while (true)
 	{
-
+	
 		cout << "[1] -> Weapon Shop" << endl;
 		cout << "[2] -> Potion Shop" << endl;
+		cout << "[0] -> Return" << endl;
 		cout << "> ";
 		cin >> shopChoice;
 
@@ -62,6 +63,14 @@ void listWeapons(vector<Weapon>& weapons, Player& player)
 				break;
 			}
 
+			if (weapons[choice].isOwned == true)
+			{
+				clear();
+				cout << "[!] This weapon is alredy owned." << endl;
+				pause();
+				break;
+			}
+
 			player.equippedWeapon = choice;
 			int goldSnapshot = player.gold;
 			player.gold -= weapons[choice].gold;
@@ -72,6 +81,21 @@ void listWeapons(vector<Weapon>& weapons, Player& player)
 			getKey();
 			return;
 		}
+
+		case Spells:
+			clear();
+			cout << "Coming soon :)" << endl;
+			pause();
+			return;
+
+		case 0:
+
+			return;
+
+		default:
+			invalid();
+			return;
+			
 		}
 
 	}

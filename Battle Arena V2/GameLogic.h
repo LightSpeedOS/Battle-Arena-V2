@@ -175,3 +175,19 @@ void runPenalty(Player& player)
 		pause();
 	}
 }
+
+
+void listStats(Player& player, const vector<Weapon>& weapons)
+{
+	clear();
+
+	cout << player.name << " | " << "lvl " << levelColor(player) << player.level << reset << endl;
+	space();
+
+	cout << left << setw(10) << "Health" << brightGreen << player.health << reset << "/" << green << player.maxHealth << reset << endl;
+	cout << left << setw(10) << "Gold" << yellow << player.gold << reset << endl;
+	cout << left << setw(10) << "Flask" << player.flask << endl;
+	cout << left << setw(10) << "Weapon" << bloodRed << weapons[player.equippedWeapon].name << reset << endl;
+
+	getKey();
+}

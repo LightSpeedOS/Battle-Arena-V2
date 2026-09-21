@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <conio.h>
 #include <string>
+#include <iomanip>
 #include <Windows.h>
 
 using namespace std;
@@ -57,6 +58,30 @@ void invalid()
 	clear();
 	cout << "[!] Invalid Option" << endl;
 	pause();
+}
+
+void shutDown()
+{
+	int result = MessageBoxA(NULL, "Are you sure?", "Warning!", MB_YESNO | MB_ICONWARNING);
+
+	if (result == IDYES)
+	{
+		cout << "[!] Shutting Down";
+		this_thread::sleep_for(chrono::seconds(1));
+		cout << ".";
+		this_thread::sleep_for(chrono::seconds(1));
+		cout << ".";
+		this_thread::sleep_for(chrono::seconds(1));
+		cout << ".";
+		exit(0);
+	}
+
+	else if (result == IDNO)
+	{
+		cout << "[!] Returning" << endl;
+		pause();
+		return;
+	}
 }
 
 void initConsole()
