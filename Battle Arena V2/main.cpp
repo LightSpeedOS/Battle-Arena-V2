@@ -1,5 +1,7 @@
 #include "Includes.h"
 #include "GameLogic.h"
+#include "Structs.h"
+#include "Battle.h"
 
 using namespace std;
 
@@ -12,14 +14,15 @@ auto main() -> int
 	Boss gBoss = {};
 	Boss nBoss = {};
 	vector<Boss>Entites;
+	vector<Weapon> weapons;
 
-	player.name = string(playerColour) +"Zork" + reset;
+	player.name = string(playerColour) + "Zork" + reset;
 	player.health = 100;
 	player.flask = 1;
 	player.maxHealth = player.health;
-	player.weapon.damage;
 	player.gold = 100;
 	player.level = 1;
+	player.equppedWeapon = 0;
 
 	tBoss.name = string(bloodRed) + "Trespasser" + reset;
 	tBoss.health = 135;
@@ -38,6 +41,10 @@ auto main() -> int
 	nBoss.damage = bossDamage(Nightbound);
 	nBoss.isDefeated = false;
 	Entites.push_back(nBoss);
+
+	Weapon weapon1;
+	weapon1.name = "Undersea Cable";
+	weapon1.damage = 19;
 
 	int mainOptions;
 
