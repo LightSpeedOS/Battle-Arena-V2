@@ -191,3 +191,53 @@ void listStats(Player& player, const vector<Weapon>& weapons)
 
 	getKey();
 }
+
+void equipWeapon(Player& player, const vector<Weapon>& weapons)
+{
+	int index;
+
+	while (true)
+	{
+		clear();
+
+
+		for (size_t i = 0; i < weapons.size(); i++)
+		{
+			if (weapons[i].isOwned == false) continue;
+
+			cout << "[ " << i << " ] " << weapons[i].name;
+			if (i == player.equippedWeapon) cout << " [EQUIPPED] " << endl;
+			if (i < weapons.size() - 1) cout << "------------" << endl;
+		}
+
+		cout << "Select an index: ";
+		cin >> index;
+
+		if (input())
+		{
+			continue;
+		}
+
+		if (index >= weapons.size() || index < 0)
+		{
+			invalid();
+			break;
+		}
+
+		if (weapons[index].isOwned == false)
+		{
+			space();
+			cout << "You do not own this weapon." << endl;
+			pause();
+			break;
+		}
+
+		player.equippedWeapon = index;
+
+		cout << "[+] Successfully Equipped " << weapons[index].name << endl;
+		getKey();
+		break;
+
+	}
+
+}

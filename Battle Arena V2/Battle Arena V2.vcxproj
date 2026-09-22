@@ -146,6 +146,7 @@
     <ClInclude Include="GameLogic.h" />
     <ClInclude Include="Includes.h" />
     <ClInclude Include="Shop.h" />
+    <ClInclude Include="Spells.h" />
     <ClInclude Include="Structs.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

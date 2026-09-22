@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Structs.h"
+#include "Spells.h"
 
-void listWeapons(vector<Weapon>& weapons, Player& player)
+void listWeapons(vector<Weapon>& weapons, vector<Potion>& potions, Player& player)
 {
 
 	int shopChoice;
@@ -10,7 +11,9 @@ void listWeapons(vector<Weapon>& weapons, Player& player)
 
 	while (true)
 	{
-	
+		clear();
+		SetConsoleTitleA("Battle Arena (Shop)");
+
 		cout << "[1] -> Weapon Shop" << endl;
 		cout << "[2] -> Potion Shop" << endl;
 		cout << "[0] -> Return" << endl;
@@ -84,7 +87,7 @@ void listWeapons(vector<Weapon>& weapons, Player& player)
 
 		case Spells:
 			clear();
-			cout << "Coming soon :)" << endl;
+			listPotions(potions, player);
 			pause();
 			return;
 

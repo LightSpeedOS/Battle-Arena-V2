@@ -3,6 +3,7 @@
 #include "Structs.h"
 #include "Battle.h"
 #include "Shop.h"
+#include "Spells.h"
 
 using namespace std;
 
@@ -68,6 +69,12 @@ auto main() -> int
 	Bloodthirsty.isOwned = false;
 	weapons.push_back(Bloodthirsty);
 
+	Potion lifeSteal;
+	lifeSteal.name = "Fortune's Demise";
+	lifeSteal.gold = 1200;
+	lifeSteal.isOwned = false;
+	potions.push_back(lifeSteal);
+
 
 	int mainOptions;
 
@@ -104,11 +111,11 @@ auto main() -> int
 			break;
 
 		case Shop:
-			listWeapons(weapons, player);
+			listWeapons(weapons, potions, player);
 			break;
 
 		case Equip:
-
+			equipWeapon(player, weapons);
 			break;
 
 		case Stats:
