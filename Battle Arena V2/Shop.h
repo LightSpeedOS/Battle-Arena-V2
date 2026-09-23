@@ -41,7 +41,8 @@ void listWeapons(vector<Weapon>& weapons, vector<Potion>& potions, Player& playe
 					continue;
 				}
 
-				cout << "[ " << i << " ] -> Name: " << weapons[i].name << " | Price:" << weapons[i].gold << endl;
+				cout << "[ " << i << " ] -> Name: " << weapons[i].name << " (" << green << weapons[i].damage << reset << ")" << endl;
+				cout << "Price: " << gold << weapons[i].gold << reset << endl;
 
 				if (i < weapons.size() - 1) cout << "-----------" << endl;
 			}
@@ -79,8 +80,9 @@ void listWeapons(vector<Weapon>& weapons, vector<Potion>& potions, Player& playe
 			player.gold -= weapons[choice].gold;
 			weapons[choice].isOwned = true;
 
-			cout << "Successfully purchased " << weapons[choice].name << "!" << endl;
-			cout << player.name << "'s Gold: " << goldSnapshot << " -> " << player.gold << "(" << red << "-" << weapons[choice].gold << reset << ")" << endl;
+			space();
+			cout << "[+] " << green << "Successfully" << reset << " Purchased " << weapons[choice].name << "!" << endl;
+			cout << player.name << "'s Gold: " << goldSnapshot << " -> " << player.gold << " (" << red << "-" << weapons[choice].gold << reset << ")" << endl;
 			getKey();
 			return;
 		}

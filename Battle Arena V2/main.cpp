@@ -17,13 +17,13 @@ auto main() -> int
 	Boss nBoss = {};
 	vector<Boss>Entites;
 	vector<Weapon> weapons;
-	vector<Potion> potions;
+	vector<Potion> potion;
 
 	player.name = string(playerColour) + "Zork" + reset;
 	player.health = 100;
 	player.flask = 1;
 	player.maxHealth = player.health;
-	player.gold = 100;
+	player.gold = 10000;
 	player.level = 1;
 	player.equippedWeapon = 0;
 
@@ -65,7 +65,7 @@ auto main() -> int
 	Weapon Bloodthirsty;
 	Bloodthirsty.name = "Bloodthirsty Axe";
 	Bloodthirsty.damage = 87;
-	Bloodthirsty.gold = 150;
+	Bloodthirsty.gold = 1500;
 	Bloodthirsty.isOwned = false;
 	weapons.push_back(Bloodthirsty);
 
@@ -73,7 +73,14 @@ auto main() -> int
 	lifeSteal.name = "Fortune's Demise";
 	lifeSteal.gold = 1200;
 	lifeSteal.isOwned = false;
-	potions.push_back(lifeSteal);
+	potion.push_back(lifeSteal);
+
+	Potion ironFist;
+	ironFist.name = "Iron Fist";
+	ironFist.gold = 300;
+	ironFist.isOwned = false;
+	potion.push_back(ironFist);
+
 
 
 	int mainOptions;
@@ -87,7 +94,8 @@ auto main() -> int
 		space();
 
 		cout << player.name << "  HP " << brightGreen << player.health << reset << "/" << green << player.maxHealth << reset
-			<< "  Gold " << gold << player.gold << reset << "  Lvl " << levelColor(player) << player.level << reset << endl;
+			<< "  Gold " << gold << player.gold << reset << "  Lvl " << levelColor(player) << player.level << reset <<
+			"  Weapon " << bloodRed << weapons[player.equippedWeapon].name << reset << " (" << green << weapons[player.equippedWeapon].damage << reset << ")" << endl;
 		space();
 
 		cout << "[1] -> Battle" << endl;
@@ -107,11 +115,11 @@ auto main() -> int
 		{
 
 		case Battle:
-			battleSequence(Entites, player, weapons);
+			battleSequence(Entites, player, weapons, potion);
 			break;
 
 		case Shop:
-			listWeapons(weapons, potions, player);
+			listWeapons(weapons, potion, player);
 			break;
 
 		case Equip:

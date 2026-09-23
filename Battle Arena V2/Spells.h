@@ -26,6 +26,12 @@ void listPotions(vector<Potion>& potions, Player& player)
 			continue;
 		}
 
+		if (index >= potions.size() || index < 0)
+		{
+			invalid();
+			return;
+		}
+
 		if (player.gold < potions[index].gold)
 		{
 			space();
@@ -34,15 +40,19 @@ void listPotions(vector<Potion>& potions, Player& player)
 			return;
 		}
 
-		if (index >= potions.size() || index < 0)
+		if (potions[index].isOwned == true)
 		{
-			invalid();
+			space();
+			cout << "[!] You already own" << potions[index].name << "!" << endl;
+			pause();
 			return;
 		}
 
 		space();
 		const int goldSnapshot = player.gold;
 		player.gold -= potions[index].gold;
+		potions[index].isOwned = true;
+
 		cout << "[+] Successfully Purchased " << potions[index].name << endl;
 		cout << "Gold: " << goldSnapshot << " -> " << player.gold << " (" << red << "-" << potions[index].gold << reset << ")" << endl;
 		getKey();
@@ -53,7 +63,7 @@ void listPotions(vector<Potion>& potions, Player& player)
 
 
 
-void castFortunesDemise(Player& player, Boss& boss, vector<Potion>& potions)
+void castFortunesDemise(Player& player, Boss& boss, vector<Potion>& potion)
 {
 	const float stolenHealth = boss.maxHealth * 0.20;
 	const int healthSnapshot = boss.health;
@@ -63,7 +73,12 @@ void castFortunesDemise(Player& player, Boss& boss, vector<Potion>& potions)
 	cout << player.name << " has cast Fortune's Demise onto " << boss.name << " stealing " << stolenHealth << "!" << endl;
 	cout << boss.name << brightGreen << boss.health << reset << "/" << green << boss.maxHealth << reset << endl;
 
-	potions[0].isEquipped = false;
-	potions[0].isOwned = false;
+	potion[FortunesDemise].isEquipped = false;
+	potion[FortunesDemise].isOwned = false;
 	getKey();
+}
+
+bool castIronFist(Player& player, Boss& boss, vector<Potion>& potion, vector<Weapon> weapons)
+{
+	return potion[IronFist].isOwned == true;
 }

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Structs.h"
+#include "Spells.h"
 
 const char* levelColor(Player& player)
 {
@@ -89,18 +90,46 @@ bool bloodDrink(const Player& player)
 	return player.health > player.maxHealth;
 }
 
-void playerAttack(Boss& target, const Player& attacker, const vector<Weapon>& weapons)
+void playerAttack(Boss& target, Player& attacker, const vector<Weapon>& weapons, vector<Potion>& potion)
 {
-	const int healthSnapshot = target.health;
-	target.health -= weapons[attacker.equippedWeapon].damage;
+	clear();
 
-	cout << attacker.name << " Striking -> " << target.name << endl;
-	battlePause();
+	if (castIronFist(attacker, target, potion, weapons))
+	{
+		const int healthSnapshot = target.health;
+		const int doubleDamage = weapons[attacker.equippedWeapon].damage * 2;
+		target.health -= doubleDamage;
 
-	cout << target.name << " Health: " << healthSnapshot << " -> "
-		<< target.health << "(" << red << "-" << weapons[attacker.equippedWeapon].damage << reset << ")" << endl;
-	battlePause();
-	space();
+		cout << attacker.name << " Striking -> " << target.name << endl;
+		battlePause();
+
+		cout << target.name << " Health: " << healthSnapshot << " -> "
+			<< target.health << "(" << red << "-" << doubleDamage << reset << ")" << endl;
+		battlePause();
+		space();
+
+		potion[IronFist].isEquipped = false;
+		potion[IronFist].isOwned = false;
+	}
+	
+	else
+	{
+		const int healthSnapshot = target.health;
+		target.health -= weapons[attacker.equippedWeapon].damage;
+
+		cout << attacker.name << " Striking -> " << target.name << " | ";
+		battlePause();
+
+		cout << target.name << " Health: " << healthSnapshot << " -> "
+			<< target.health << " (" << red << "-" << weapons[attacker.equippedWeapon].damage << reset << ")" << endl;
+		battlePause();
+		space();
+	}
+}
+
+bool isDead(const Boss& boss)
+{
+	return boss.health <= 0;
 }
 
 void bossAttack(Player& target, const Boss& attacker)
@@ -108,18 +137,13 @@ void bossAttack(Player& target, const Boss& attacker)
 	const int healthSnapshot = target.health;
 	target.health -= attacker.damage;
 
-	cout << attacker.name << " Striking -> " << target.name << endl;
+	cout << attacker.name << " Striking -> " << target.name << " | ";
 	battlePause();
 
 	cout << target.name << " Health: " << healthSnapshot << " -> "
-		<< target.health << "(" << red << "-" << attacker.damage << reset << ")" << endl;
+		<< target.health << " (" << red << "-" << attacker.damage << reset << ")" << endl;
 	getKey();
 	space();
-}
-
-bool isDead(const Boss& boss)
-{
-	return boss.health <= 0;
 }
 
 bool isDead(const Player& player)
@@ -151,7 +175,7 @@ int returnGold(const int bossType)
 	return 0;
 }
 
-void runPenalty(Player& player)
+void runPenalty(Player& player, Boss& boss)
 {
 	int result = MessageBoxA(NULL, "Running away will result in a penalty.", "Warning!", MB_YESNO);
 
@@ -163,6 +187,8 @@ void runPenalty(Player& player)
 
 		if (player.gold < 0) player.gold = 0;
 		if (player.flask < 0) player.flask = 0;
+		boss.health = boss.maxHealth;
+		player.health = player.maxHealth;
 
 		cout << "Coward! | - 1 Blood Drink & -500 Gold." << endl;
 		cout << "Blood Drink Remaining: " << player.flask << " | Gold: " << player.gold << endl;
@@ -177,7 +203,7 @@ void runPenalty(Player& player)
 }
 
 
-void listStats(Player& player, const vector<Weapon>& weapons)
+void listStats(Player& player, vector<Weapon>& weapons)
 {
 	clear();
 
@@ -189,7 +215,74 @@ void listStats(Player& player, const vector<Weapon>& weapons)
 	cout << left << setw(10) << "Flask" << player.flask << endl;
 	cout << left << setw(10) << "Weapon" << bloodRed << weapons[player.equippedWeapon].name << reset << endl;
 
-	getKey();
+	space();
+	while (true)
+	{
+		cout << "[L] Level Up  [I] Information  [R] Return" << endl;
+		char key = _getch();
+
+		switch (tolower(key))
+		{
+		case 'l':
+		{
+			int buyingLevels;
+
+			clear();
+			cout << "Each level cost 500 Virtue | you can afford " << player.gold / 500 << " Levels!" << endl;
+			space();
+
+			cout << "Amount:";
+			cin >> buyingLevels;
+
+			if (input())
+			{
+				continue;
+			}
+
+			if (buyingLevels < 0)
+			{
+				space();
+				cout << "[!] You cannot buy negative levels" << endl;
+				pause();
+				break;
+			}
+
+			if (player.gold < 500 * buyingLevels)
+			{
+				space();
+				cout << "[!] You do not have enough virtue" << endl;
+				pause();
+				break;
+			}
+
+			cout << "[+] " << green << "Successfully " << reset << "Purchased " << buyingLevels << " Levels!" << endl;
+			player.gold -= 500 * buyingLevels;
+			player.level += buyingLevels;
+			player.flask += buyingLevels / 2;
+			weapons[player.equippedWeapon].damage += 2;
+			getKey();
+
+			return;
+		}
+
+		case 'i':
+			MessageBoxA(NULL,
+				"1. Blood Drinks will cap at 14, regardless of what level you are.\n"
+				"2. There is no level cap, every level will grant a +2 weapon damage boost.\n"
+				"3. For every 2 levels you purchase you will recive +1 Blood Drink",
+				"Information",
+				MB_OK | MB_ICONINFORMATION);
+			break;
+
+		case 'r':
+			pause();
+			return;
+			
+		default:
+			invalid();
+			break;
+		}
+	}
 }
 
 void equipWeapon(Player& player, const vector<Weapon>& weapons)
@@ -205,9 +298,10 @@ void equipWeapon(Player& player, const vector<Weapon>& weapons)
 		{
 			if (weapons[i].isOwned == false) continue;
 
-			cout << "[ " << i << " ] " << weapons[i].name;
-			if (i == player.equippedWeapon) cout << " [EQUIPPED] " << endl;
 			if (i < weapons.size() - 1) cout << "------------" << endl;
+			cout << "[ " << i << " ] " << weapons[i].name;
+			if (i == player.equippedWeapon) cout << " [EQUIPPED] ";
+			cout << endl;
 		}
 
 		cout << "Select an index: ";
@@ -234,7 +328,8 @@ void equipWeapon(Player& player, const vector<Weapon>& weapons)
 
 		player.equippedWeapon = index;
 
-		cout << "[+] Successfully Equipped " << weapons[index].name << endl;
+		space();
+		cout << "[+] " << green << "Successfully" << reset << " Equipped " << weapons[index].name << endl;
 		getKey();
 		break;
 

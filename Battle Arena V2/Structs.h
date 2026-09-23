@@ -30,6 +30,13 @@ enum Bosses
 	Nightbound  // 2
 };
 
+enum Potions
+{
+	FortunesDemise,
+	IronFist,
+
+};
+
 struct Weapon
 {
 	string name;
