@@ -14,11 +14,6 @@ void listPotions(vector<Potion>& potions, Player& player)
 		for (size_t i = 0; i < potions.size(); i++)
 		{
 
-			if (potions[i].isOwned == true)
-			{
-				continue;
-			}
-
 			cout << "[ " << i << " ] -> " << potions[i].name << " | Gold:" << potions[i].gold << endl;
 			if (i < potions.size() - 1) cout << "-----------" << endl;
 		}
@@ -48,7 +43,7 @@ void listPotions(vector<Potion>& potions, Player& player)
 		if (potions[index].isOwned == true)
 		{
 			space();
-			cout << "[!] You already own " << potions[index].name << "!" << endl;
+			cout << "[!] You already own" << potions[index].name << "!" << endl;
 			pause();
 			return;
 		}

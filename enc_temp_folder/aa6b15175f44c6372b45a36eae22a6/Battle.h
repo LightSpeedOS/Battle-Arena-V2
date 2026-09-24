@@ -95,15 +95,12 @@ void battleSequence(vector<Boss>& bosses, Player& player, const vector<Weapon>& 
 				
 
 				playerAttack(boss, player, weapons, potion);
-				
-				int flaskSnapshot = player.flask;
 				if (isDead(boss))
 				{
 					inBattle = false;
 					int goldSnapshot = player.gold;
 					boss.health = boss.maxHealth;
 					player.health = player.maxHealth;
-					player.flask = flaskSnapshot;
 					boss.isDefeated = true;
 
 					giveRewards(bossPick, player);
@@ -125,7 +122,6 @@ void battleSequence(vector<Boss>& bosses, Player& player, const vector<Weapon>& 
 					int goldSnapshot = player.gold;
 					boss.health = boss.maxHealth;
 					player.health = player.maxHealth;
-					player.flask = flaskSnapshot;
 					loseRewards(bossPick, player);
 
 					clear();
@@ -158,10 +154,10 @@ void battleSequence(vector<Boss>& bosses, Player& player, const vector<Weapon>& 
 
 			for (size_t i = 0; i < potion.size(); i++)
 			{
+				if (i < potion.size() - 1) cout << "------------" << endl;
 				if (potion[i].isOwned == false) continue;
-
-				cout << " [ " << i << " ] " << potion[i].name << endl;
-				if (i < potion.size() - 1) cout << "----------" << endl;
+				cout << " [ " << i << " ] " << potion[i].name;
+				if (potion[i].isEquipped) cout << " [EQUIPPED] " << endl;
 			}
 
 			space();

@@ -95,6 +95,7 @@ void listWeapons(vector<Weapon>& weapons, vector<Potion>& potions, Player& playe
 		case Spells:
 			clear();
 			listPotions(potions, player);
+			pause();
 			return;
 
 		case 0:

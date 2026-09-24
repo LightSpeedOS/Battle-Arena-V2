@@ -76,7 +76,6 @@ int bossSelection(vector<Boss>& bosses)
 		}
 
 	}
-	return 0;
 }
 
 int bossDamage(int bossType)
@@ -84,7 +83,6 @@ int bossDamage(int bossType)
 	if (bossType == 0) return rand() % 37 + 19;
 	if (bossType == 1) return rand() % 70 + 35;
 	if (bossType == 2) return rand() % 100 + 45;
-	return 0;
 }
 
 bool bloodDrink(const Player& player)
@@ -103,23 +101,16 @@ void playerAttack(Boss& target, Player& attacker, const vector<Weapon>& weapons,
 		target.health -= stolenHealth;
 
 		space();
-		cout << attacker.name << " has cast Fortune's Demise onto " << target.name << " stealing " << stolenHealth << " Health!" << endl;
-		cout << target.name << " " << brightGreen << target.health << reset << "/" << green << target.maxHealth << reset << endl;
+		cout << attacker.name << " has cast Fortune's Demise onto " << target.name << " stealing " << stolenHealth << "!" << endl;
+		cout << target.name << brightGreen << target.health << reset << "/" << green << target.maxHealth << reset << endl;
 
 		potion[FortunesDemise].isEquipped = false;
 		potion[FortunesDemise].isOwned = false;
 		getKey();
-		clear();
 	}
 
 	if (castIronFist(attacker, target, potion, weapons))
 	{
-
-		cout << attacker.name << " (" << brightGreen << attacker.health << reset << "/" << green << attacker.maxHealth << reset << ") ";
-		cout << " | ";
-		cout << target.name << " (" << brightGreen << target.health << reset << "/" << green << target.maxHealth << reset << ")" << endl;
-		space();
-
 		const int healthSnapshot = target.health;
 		const int doubleDamage = weapons[attacker.equippedWeapon].damage * 2;
 		target.health -= doubleDamage;
@@ -138,12 +129,6 @@ void playerAttack(Boss& target, Player& attacker, const vector<Weapon>& weapons,
 	
 	else
 	{
-
-		cout << attacker.name << " (" << brightGreen << attacker.health << reset << "/" << green << attacker.maxHealth << reset << ") ";
-		cout << " | ";
-		cout << target.name << " (" << brightGreen << target.health << reset << "/" << green << target.maxHealth << reset << ")" << endl;
-		space();
-
 		const int healthSnapshot = target.health;
 		target.health -= weapons[attacker.equippedWeapon].damage;
 
@@ -164,11 +149,6 @@ bool isDead(const Boss& boss)
 
 void bossAttack(Player& target, const Boss& attacker)
 {
-	cout << attacker.name << " (" << brightGreen << attacker.health << reset << "/" << green << attacker.maxHealth << reset << ") ";
-	cout << " | ";
-	cout << target.name << " (" << brightGreen << target.health << reset << "/" << green << target.maxHealth << reset << ")" << endl;
-	space();
-
 	const int healthSnapshot = target.health;
 	target.health -= attacker.damage;
 
@@ -196,14 +176,10 @@ int giveRewards(const int bossType, Player& player)
 
 int loseRewards(const int bossType, Player& player)
 {
-
 	if (bossType == 0) return player.gold -= 750;
 	if (bossType == 1) return player.gold -= 1750;
 	if (bossType == 2) return player.gold -= 3500;
-
-	if (player.gold < 0) player.gold = 0;
-
-	return player.gold;
+	return 0;
 }
 
 int returnGold(const int bossType)
@@ -225,7 +201,7 @@ void runPenalty(Player& player, Boss& boss)
 		player.gold -= 500;
 
 		if (player.gold < 0) player.gold = 0;
-		if (player.flask < 0) player.flask = 1;
+		if (player.flask < 0) player.flask = 0;
 		boss.health = boss.maxHealth;
 		player.health = player.maxHealth;
 
@@ -257,7 +233,6 @@ void listStats(Player& player, vector<Weapon>& weapons)
 	space();
 	while (true)
 	{
-		clear();
 		cout << "[L] Level Up  [I] Information  [R] Return" << endl;
 		char key = _getch();
 
@@ -299,11 +274,7 @@ void listStats(Player& player, vector<Weapon>& weapons)
 			player.gold -= 500 * buyingLevels;
 			player.level += buyingLevels;
 			player.flask += buyingLevels / 2;
-			player.maxHealth += 20 * buyingLevels;
-			player.health = player.maxHealth;
 			weapons[player.equippedWeapon].damage += 2;
-
-			if (player.flask > player.maxFlask) player.flask = player.maxFlask;
 			getKey();
 
 			return;
@@ -342,10 +313,10 @@ void equipWeapon(Player& player, const vector<Weapon>& weapons)
 		{
 			if (weapons[i].isOwned == false) continue;
 
+			if (i < weapons.size() - 1) cout << "------------" << endl;
 			cout << "[ " << i << " ] " << weapons[i].name;
 			if (i == player.equippedWeapon) cout << " [EQUIPPED] ";
-			space();
-			space();
+			cout << endl;
 		}
 
 		cout << "Select an index: ";

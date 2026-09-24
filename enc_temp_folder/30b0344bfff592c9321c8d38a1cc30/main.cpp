@@ -21,9 +21,8 @@ auto main() -> int
 
 	player.name = string(playerColour) + "Zork" + reset;
 	player.health = 100;
-	player.maxHealth = player.health;
 	player.flask = 1;
-	player.maxFlask = 14;
+	player.maxHealth = player.health;
 	player.gold = 10000;
 	player.level = 1;
 	player.equippedWeapon = 0;

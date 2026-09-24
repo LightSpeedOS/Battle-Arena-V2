@@ -57,9 +57,8 @@ struct Player
 {
 	string name;
 	int health;
-	int maxHealth;
 	int flask;
-	int maxFlask;
+	int maxHealth;
 	int gold;
 	int level;
 	int equippedWeapon;
